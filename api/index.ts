@@ -1,6 +1,6 @@
 const express = require('express');
 const instagramGetUrl = require("instagram-url-direct")
-// const { ndown } = require('rahad-all-downloader')
+const instagramDownloader = require('./instagram');
 const app = express();
 
 app.use(express.static('public'));
@@ -11,8 +11,8 @@ async function instaRequest(url){
     return result
 }
 
-async function instaRequest2(url){
-    let result = await ndown(url)
+async function igdl(url, proxy = null) {
+    const result = await instagramDownloader(url, proxy);
     return result
 }
 
@@ -24,7 +24,7 @@ app.get('/instagram', async function (req, res) {
 
 app.get('/instagram2', async function (req, res) {
     const inputUrl = req.query.url
-    const output = await instaRequest2(inputUrl)
+    const output = await igdl(inputUrl)
     res.send(output);
 });
 
